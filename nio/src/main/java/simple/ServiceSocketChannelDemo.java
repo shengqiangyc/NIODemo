@@ -1,12 +1,12 @@
+package simple;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -19,13 +19,13 @@ public class ServiceSocketChannelDemo {
     //服务器地址
     private InetSocketAddress localAddress;
 
-    public ServiceSocketChannelDemo(int port) throws IOException {
+    public ServiceSocketChannelDemo(int port){
         this.localAddress = new InetSocketAddress(port);
     }
 
-    public void listen() {
-        ServerSocketChannel serverSocketChannel = null;
-        Selector selector = null;
+    private void listen() {
+        ServerSocketChannel serverSocketChannel;
+        Selector selector;
         try {
             //创建选择器
             selector = Selector.open();
@@ -40,7 +40,7 @@ public class ServiceSocketChannelDemo {
             //注册到selector上，只对连接事件感兴趣
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
-            System.out.println("server started");
+            System.out.println("服务端已启动，端口为:" + localAddress.getPort());
 
             while (true) {
                 //如果没有事件的话，这里会阻塞
@@ -59,7 +59,9 @@ public class ServiceSocketChannelDemo {
                         SocketChannel sc = serverSocketChannel.accept();
                         sc.configureBlocking(false);
                         sc.register(selector, SelectionKey.OP_READ);
-                        System.out.println("channel is  " + sc.getRemoteAddress());
+                        String msg = "我收到了你的连接请求";
+                        sc.write(ByteBuffer.wrap(msg.getBytes()));
+                        System.out.println("客户端：" + sc.getRemoteAddress() + "连接成功");
                     }
                     //判断读事件
                     if (key.isReadable()) {
@@ -68,21 +70,22 @@ public class ServiceSocketChannelDemo {
                         ByteBuffer buffer = ByteBuffer.allocate(50);
                         socketChannel.read(buffer);
                         buffer.flip();
-                        System.out.println("server received msg : " + new String(buffer.array()).trim());
+                        System.out.println("收到客户端消息：" + new String(buffer.array()).trim());
+                       /* String msg = "我收到了" + new String(buffer.array()).trim();
+                        ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
+                        socketChannel.write(outBuffer);
+                        System.out.println("回复客户端：" + msg);*/
                     }
-                    key.cancel();
                     //移除已经处理过的事件
                     it.remove();
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
         }
     }
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args){
         ServiceSocketChannelDemo channelDemo = new ServiceSocketChannelDemo(7777);
         channelDemo.listen();
     }
