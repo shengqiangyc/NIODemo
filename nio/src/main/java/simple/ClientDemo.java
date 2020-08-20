@@ -30,7 +30,7 @@ public class ClientDemo {
     public void listen() throws IOException {
         // 轮询访问selector
         while (true) {
-            int n = selector.select();
+            int n = selector.select(500);
             if (n == 0) {
                 continue;
             }
@@ -57,20 +57,10 @@ public class ClientDemo {
         }
     }
 
-/*    public void sendMsg(String word) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(word.getBytes());
-        System.out.println("发送消息'" + word);
-        try {
-            socketChannel.write(byteBuffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     public static void main(String[] args) throws IOException {
         final ClientDemo clientDemo = new ClientDemo();
         clientDemo.initClient("127.0.0.1", 7777);
-        //clientDemo.sendMsg("hello mhc!");
         clientDemo.listen();
     }
 }

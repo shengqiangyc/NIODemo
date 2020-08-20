@@ -44,7 +44,7 @@ public class ServiceSocketChannelDemo {
 
             while (true) {
                 //如果没有事件的话，这里会阻塞
-                int select = selector.select();
+                int select = selector.select(500);
                 if (select == 0) {
                     continue;
                 }
@@ -71,10 +71,6 @@ public class ServiceSocketChannelDemo {
                         socketChannel.read(buffer);
                         buffer.flip();
                         System.out.println("收到客户端消息：" + new String(buffer.array()).trim());
-                       /* String msg = "我收到了" + new String(buffer.array()).trim();
-                        ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
-                        socketChannel.write(outBuffer);
-                        System.out.println("回复客户端：" + msg);*/
                     }
                     //移除已经处理过的事件
                     it.remove();
