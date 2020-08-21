@@ -62,15 +62,6 @@ public class ClientDemo {
         }
     }
 
-    public void sendMsg(String word) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(word.getBytes());
-        System.out.println("发送消息'" + word);
-        try {
-            socketChannel.write(byteBuffer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void main(String[] args) throws IOException {
         final ClientDemo clientDemo = new ClientDemo();
@@ -81,8 +72,5 @@ public class ClientDemo {
             e.printStackTrace();
         }
         clientDemo.listen();
-        while (true) {
-            clientDemo.sendMsg("hello mhc");
-        }
     }
 }
