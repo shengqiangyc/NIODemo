@@ -10,10 +10,5 @@ public class ChatServerTest {
         ChatServer server = new ChatServer();
         Thread thread = new Thread(server);
         thread.start();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

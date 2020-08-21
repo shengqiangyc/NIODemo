@@ -70,7 +70,7 @@ public class ServiceSocketChannelDemo {
                         ByteBuffer buffer = ByteBuffer.allocate(50);
                         socketChannel.read(buffer);
                         buffer.flip();
-                        System.out.println("收到客户端消息：" + new String(buffer.array()).trim());
+                        System.out.println("收到客户端消息：" + new String(buffer.array()));
                     }
                     //移除已经处理过的事件
                     it.remove();

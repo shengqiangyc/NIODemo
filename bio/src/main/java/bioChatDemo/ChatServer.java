@@ -12,7 +12,7 @@ public class ChatServer implements Runnable{
 
     private static int PORT = 7777;
 
-    private static volatile ServerSocket serverSocket = null;
+    private static  ServerSocket serverSocket = null;
 
 
     @Override

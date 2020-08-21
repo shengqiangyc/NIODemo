@@ -11,6 +11,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  * @author shengqiang
@@ -52,6 +53,7 @@ public class ReactorServiceDemo {
 
             while (true) {
                 //如果没有事件的话，这里会阻塞
+
                 int select = selector.select(500);
                 if (select == 0) {
                     continue;

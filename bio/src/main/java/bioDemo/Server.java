@@ -25,7 +25,7 @@ public class Server implements Runnable{
     public static void start(int port) throws IOException{
         try {
             serverSocket = new ServerSocket(SERVER_PORT);
-            System.out.println("服务d端已启动，端口号:" + SERVER_PORT);
+            System.out.println("服务端已启动，端口号:" + SERVER_PORT);
             while (true) {
                 Socket socket = serverSocket.accept();
                 new Thread(new ServerHandler(socket)).start();

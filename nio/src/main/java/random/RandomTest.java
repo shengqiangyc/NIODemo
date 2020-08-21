@@ -18,7 +18,7 @@ public class RandomTest {
         while (i > 0){
             result = names.get(random.nextInt(names.size() - 1));
             System.out.println(result);
-            Thread.sleep(10);
+            Thread.sleep(20);
             i --;
         }
         System.out.println("------------------------------------------");
